@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:80/api'
+const BASE_URL = 'http://localhost:8000'
 export const BILLING_SUMMARY_FETCHED = 'BILLING_SUMMARY_FETCHED'
 
 export function getSummary() {
@@ -10,7 +10,7 @@ export function getSummary() {
                                  console.log('teste', resp.data)
                                  dispatch({
                                      type: BILLING_SUMMARY_FETCHED,
-                                     payload: resp.data
+                                     payload: resp.data.data
                                  })
                              }).catch(resp => {
                                  console.log(resp)
