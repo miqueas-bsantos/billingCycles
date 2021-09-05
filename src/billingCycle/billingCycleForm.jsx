@@ -7,24 +7,27 @@ import { init } from './billingCycleActions'
 
 class BillingCycleForm extends Component {
     render () {
-        const { handleSubmit } = this.props
+        const { handleSubmit, readOnly, buttoName } = this.props
         return (
             
             <form role='' onSubmit={handleSubmit}>
                 <div className="box-body" >
-                    <Field name='name' 
+                    <Field name='name'
+                            readOnly={readOnly}
                             component={LabelAndInput}
                             placeholder="Enter the name"
                             type="text"
                             label="Name"
                             cols="12 4" />
-                    <Field name='month' 
+                    <Field name='month'
+                            readOnly={readOnly} 
                             component={LabelAndInput}
                             placeholder="Enter the month"
                             type="number"
                             label="Month"
                             cols="12 4" />
                     <Field name='year' 
+                            readOnly={readOnly}
                             component={LabelAndInput}
                             placeholder="Enter the year"
                             type="number"
@@ -32,7 +35,7 @@ class BillingCycleForm extends Component {
                             cols="12 4" />
                 </div>
                 <div className="box-footer">
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">{buttoName}</button>
                     <button type="button" className="btn btn-danger ml-1" onClick={this.props.init}>Cancelar</button>
                 </div>
             </form>

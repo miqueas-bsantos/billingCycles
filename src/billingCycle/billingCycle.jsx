@@ -14,7 +14,7 @@ import Form from './billingCycleForm'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { selectTab, showTabs } from '../common/tab/tabActions'
-import { create } from './billingCycleActions'
+import { create, update, remove } from './billingCycleActions'
 
 class BillingCycles extends Component {
     componentDidMount() {
@@ -40,12 +40,14 @@ class BillingCycles extends Component {
                                 <List />
                             </TabContent>
                             <TabContent id="tabCreate">
-                                <Form onSubmit={this.props.create}/>
+                                <Form onSubmit={this.props.create} buttoName="Add"/>
                             </TabContent>
                             <TabContent id="tabUpdate">
-                                <Form />
+                                <Form onSubmit={this.props.update} buttoName="Save"/>
                             </TabContent>
-                            <TabContent id="tabDelete"><h1>tabDelete</h1></TabContent>
+                            <TabContent id="tabDelete">
+                                <Form onSubmit={this.props.remove} readOnly={true} buttoName="Delete"/>
+                            </TabContent>
                         </TabsContent>
                     </Tabs>
                 </Content>
@@ -55,6 +57,6 @@ class BillingCycles extends Component {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    selectTab, showTabs, create
+    selectTab, showTabs, create, update, remove
 }, dispatch)
 export default connect(null, mapDispatchToProps)(BillingCycles)

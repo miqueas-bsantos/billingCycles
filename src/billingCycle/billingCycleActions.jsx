@@ -23,12 +23,25 @@ export function getList() {
     }
 }
 
-export function create(item) {
+export const create = (values) => {
+    return submit('post', values)
+}
+
+export const remove = (values) => {
+    return submit('delete', values)
+}
+
+export const update = (values) => {
+    return submit('put', values)
+}
+
+export function submit(method, values) {
+    const id = values.id && method!== 'put' ? values.id : ""
     return dispatch => {
-        axios.post(base_url, item)
+        axios[method](`${base_url}/${id}`, values)
              .then(resp => {
-                    toastr.success("Cadastro", "Incluíndo com sucesso!")
-                    init()
+                    toastr.success("Registro", "Atualizado com sucesso!")
+                    dispatch(init())
                 }).catch(resp => {
                     resp.response.data.detail.forEach(error => toastr.error(error.loc[1], error.msg))
                     dispatch({
@@ -47,16 +60,23 @@ export const showUpdate = (billingCycle) => {
             initialize('billingCycleForm', billingCycle)
         ])
     }
-        
+}
+
+export const showDelete = (billingCycle) => {
+    return dispatch => {
+        dispatch([
+            selectTab('tabDelete'),
+            showTabs('tabDelete'),
+            initialize('billingCycleForm', billingCycle)
+        ])
+    }
 }
 
 export const init = () => {
-    return dispatch => {
-        dispatch([
+    return [
                 getList(),
                 initialize('billingCycleForm', INITIAL_VALUES),
                 showTabs('tabList', 'tabCreate'),
                 selectTab('tabList')
-        ])
-    }
+        ]
 }
