@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { toastr } from 'react-redux-toastr'
-import { reset as resetForm } from 'redux-form'
+import { reset as resetForm, initialize } from 'redux-form'
 import { showTabs, selectTab } from '../common/tab/tabActions'
 
 const base_url = 'http://localhost:8000/billingCycles'
+const INITIAL_VALUES = {}
 
 export function getList() {
     return dispatch => {
@@ -14,7 +15,6 @@ export function getList() {
                     payload: resp.data.data
                 })
             }).catch(resp => {
-                console.log('error', resp)
                 dispatch({
                     type: 'BILLING_CYCLE_FETCHED',
                     payload: request
@@ -28,15 +28,7 @@ export function create(item) {
         axios.post(base_url, item)
              .then(resp => {
                     toastr.success("Cadastro", "Incluíndo com sucesso!")
-                    dispatch(
-                        [
-                            getList(),
-                            resetForm('billingCycleForm'),
-                            showTabs('tabList', 'tabCreate'),
-                            selectTab('tabList'),
-                        ]
-                    )
-                    r
+                    init()
                 }).catch(resp => {
                     resp.response.data.detail.forEach(error => toastr.error(error.loc[1], error.msg))
                     dispatch({
@@ -44,5 +36,27 @@ export function create(item) {
                         payload: []
                     })
              })
+    }
+}
+
+export const showUpdate = (billingCycle) => {
+    return dispatch => {
+        dispatch([
+            selectTab('tabUpdate'),
+            showTabs('tabUpdate'),
+            initialize('billingCycleForm', billingCycle)
+        ])
+    }
+        
+}
+
+export const init = () => {
+    return dispatch => {
+        dispatch([
+                getList(),
+                initialize('billingCycleForm', INITIAL_VALUES),
+                showTabs('tabList', 'tabCreate'),
+                selectTab('tabList')
+        ])
     }
 }
