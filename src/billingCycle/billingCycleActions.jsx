@@ -1,4 +1,7 @@
 import axios from 'axios'
+import { toastr } from 'react-redux-toastr'
+import { reset as resetForm } from 'redux-form'
+import { showTabs, selectTab } from '../common/tab/tabActions'
 
 const base_url = 'http://localhost:8000/billingCycles'
 
@@ -24,12 +27,18 @@ export function create(item) {
     return dispatch => {
         axios.post(base_url, item)
              .then(resp => {
-                    dispatch({
-                        type: 'BILLING_CYCLE_FETCHED',
-                        payload: resp.data.data
-                    })
+                    toastr.success("Cadastro", "Incluíndo com sucesso!")
+                    dispatch(
+                        [
+                            getList(),
+                            resetForm('billingCycleForm'),
+                            showTabs('tabList', 'tabCreate'),
+                            selectTab('tabList'),
+                        ]
+                    )
+                    r
                 }).catch(resp => {
-                    console.log("error", resp)
+                    resp.response.data.detail.forEach(error => toastr.error(error.loc[1], error.msg))
                     dispatch({
                         type: 'BILLING_CYCLE_FETCHED',
                         payload: []
