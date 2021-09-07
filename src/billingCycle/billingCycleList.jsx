@@ -22,7 +22,7 @@ class BillingCycleList extends Component {
                 <td>{bc.name}</td>
                 <td>{bc.month}</td>
                 <td>{bc.year}</td>
-                <td>
+                <td className="btn-actions">
                     <button className="btn btn-warning" onClick={() => this.props.showUpdate(bc)}>
                         <i className="fa fa-pencil"></i>
                     </button>
@@ -42,7 +42,7 @@ class BillingCycleList extends Component {
                             <th>Billing Name</th>
                             <th>Month</th>
                             <th>Year</th>
-                            <th>Actions</th>
+                            <th className="label-actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody>

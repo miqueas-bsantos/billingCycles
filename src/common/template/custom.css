@@ -3,3 +3,16 @@
     bottom: 0;
     width: 100%;
 }
+
+.btn {
+    margin: 5px;
+}
+
+.btn-actions {
+    min-width: 150px;
+    text-align: center;
+}
+
+.label-actions{
+    text-align: center;
+}
