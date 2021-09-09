@@ -4,7 +4,7 @@ import { reset as resetForm, initialize } from 'redux-form'
 import { showTabs, selectTab } from '../common/tab/tabActions'
 
 const base_url = 'http://localhost:8000/billingCycles'
-const INITIAL_VALUES = {}
+const INITIAL_VALUES = {credits: [{}], debits: [{}]}
 
 export function getList() {
     return dispatch => {
@@ -53,6 +53,8 @@ export function submit(method, values) {
 }
 
 export const showUpdate = (billingCycle) => {
+    if (!billingCycle.credits.length) {billingCycle.credits=[{}]}
+    if (!billingCycle.debits.length) {billingCycle.debits=[{}]}
     return dispatch => {
         dispatch([
             selectTab('tabUpdate'),
@@ -63,6 +65,8 @@ export const showUpdate = (billingCycle) => {
 }
 
 export const showDelete = (billingCycle) => {
+    if (!billingCycle.credits.length) {billingCycle.credits=[{}]}
+    if (!billingCycle.debits.length) {billingCycle.debits=[{}]}
     return dispatch => {
         dispatch([
             selectTab('tabDelete'),
@@ -75,8 +79,8 @@ export const showDelete = (billingCycle) => {
 export const init = () => {
     return [
                 getList(),
-                initialize('billingCycleForm', INITIAL_VALUES),
                 showTabs('tabList', 'tabCreate'),
-                selectTab('tabList')
+                selectTab('tabList'),
+                initialize('billingCycleForm', INITIAL_VALUES)
         ]
 }
