@@ -12,6 +12,7 @@ class ItemList extends Component {
 
     add(index, item={}) {
         if(!this.props.readOnly){
+            item.id = -1
             this.props.arrayInsert('billingCycleForm', this.props.field, index, item)
         }
     }

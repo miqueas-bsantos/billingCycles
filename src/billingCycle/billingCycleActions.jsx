@@ -36,9 +36,15 @@ export const update = (values) => {
 }
 
 export function submit(method, values) {
+    let formData = {}
+    Object.assign(formData, values)
+    let credits = formData.credits.filter(e => e.value)
+    let debits = formData.debits.filter(e => e.value)
+    formData.credits = credits.length ? credits : []
+    formData.debits = debits.length ? debits : []
     const id = values.id && method!== 'put' ? values.id : ""
     return dispatch => {
-        axios[method](`${base_url}/${id}`, values)
+        axios[method](`${base_url}/${id}`, formData)
              .then(resp => {
                     toastr.success("Registro", "Atualizado com sucesso!")
                     dispatch(init())
